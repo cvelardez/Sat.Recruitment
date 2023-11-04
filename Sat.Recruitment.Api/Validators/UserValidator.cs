@@ -19,16 +19,21 @@ namespace Sat.Recruitment.Api.Validators
 
         private string NormalizeEmail(string email)
         {
-            //Normalize email
-            var aux = email.Split(new char[] { '@' }, StringSplitOptions.RemoveEmptyEntries);
+            //Normalize email            
+            if(!string.IsNullOrEmpty(email) && email.Contains('@'))
+            {
+                var aux = email.Split(new char[] { '@' }, StringSplitOptions.RemoveEmptyEntries);
 
-            var atIndex = aux[0].IndexOf("+", StringComparison.Ordinal);
+                var atIndex = aux[0].IndexOf("+", StringComparison.Ordinal);
 
-            aux[0] = atIndex < 0 ? aux[0].Replace(".", "") : aux[0].Replace(".", "").Remove(atIndex);
+                aux[0] = atIndex < 0 ? aux[0].Replace(".", "") : aux[0].Replace(".", "").Remove(atIndex);
 
-            email = string.Join("@", new string[] { aux[0], aux[1] });
+                email = string.Join("@", new string[] { aux[0], aux[1] });
 
-            return email;
+                return email;
+            }
+            
+            return null;
         }
     }
 }
